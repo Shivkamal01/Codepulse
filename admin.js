@@ -166,19 +166,7 @@
     for (const s of filtered) {
       const tr = document.createElement("tr");
       const encoded = encodeKey(s.roll || "");
-      tr.innerHTML = `
-<td>${escapeHtml(s.roll || "")}</td>
-<td>${escapeHtml(s.name || "")}</td>
-<td>${escapeHtml(s.branch || "")}</td>
-<td>${escapeHtml(String(s.semester || ""))}</td>
-<td>${escapeHtml(String(s.streak || 0))}</td>
-<td>${attendanceBadge(s.attendance)}</td>
-<td>
-  <button class="btn" onclick="viewStudent('${encoded}')">View</button>
-  <button class="btn btn-primary" onclick="editStudent('${encoded}')">Edit</button>
-  <button class="btn btn-danger" onclick="removeStudentConfirm('${encoded}')">Delete</button>
-</td>
-`;
+      tr.innerHTML = ` <td>${escapeHtml(s.roll || "")}</td> <td>${escapeHtml(s.name || "")}</td> <td>${escapeHtml(s.branch || "")}</td> <td>${escapeHtml(String(s.semester || ""))}</td> <td>${escapeHtml(String(s.streak || 0))}</td> <td>${attendanceBadge(s.attendance)}</td> <td>   <button class="btn" onclick="viewStudent('${encoded}')">View</button>   <button class="btn btn-primary" onclick="editStudent('${encoded}')">Edit</button>   <button class="btn btn-danger" onclick="removeStudentConfirm('${encoded}')">Delete</button> </td> `;
       tbody.appendChild(tr);
     }
   }
@@ -290,64 +278,23 @@
       const students = readStudents();
 
       if (editingRoll) {
+        if (roll !== editingRoll && students.some((s) => s.roll === roll)) {
+          alert("Student with this roll number already exists.");
+          return;
+        }
         const idx = students.findIndex((s) => s.roll === editingRoll);
         if (idx !== -1) {
           students[idx] = {
-            ...students[idx],
-            roll,
-            name,
-            college,
-            branch,
-            semester,
-            streak,
-            email,
-            location,
-            github,
-            linkedin,
-            codeforces,
-            attendance,
-            marks,
-            password,
-          };
+            ...students[idx],  roll,  name,  college,  branch,  semester,  streak,  email,  location,  github,  linkedin,  codeforces,  attendance,  marks,  password };
         } else {
-          students.push({
-            roll,
-            name,
-            college,
-            branch,
-            semester,
-            streak,
-            email,
-            location,
-            github,
-            linkedin,
-            codeforces,
-            attendance,
-            marks,
-            password,
-          });
+          students.push({ roll, name, college, branch, semester, streak, email, location, github, linkedin, codeforces, attendance, marks, password });
         }
       } else {
         if (students.some((s) => s.roll === roll)) {
           alert("Student already exists.");
           return;
         }
-        students.push({
-          roll,
-          name,
-          college,
-          branch,
-          semester,
-          streak,
-          email,
-          location,
-          github,
-          linkedin,
-          codeforces,
-          attendance,
-          marks,
-          password,
-        });
+        students.push({ roll,  name,  college,  branch,  semester,  streak,  email,  location,  github,  linkedin,  codeforces,  attendance,  marks,  password,});
       }
 
       writeStudents(students);
