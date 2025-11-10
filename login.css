@@ -1,4 +1,3 @@
-
 /* Login Page Styles */
 .login-page .main-content {
   margin-left: 0;
@@ -7,7 +6,6 @@
   align-items: center;
   justify-content: center;
   padding: 2rem;
-  height: 100vh;
 }
 
 .login-section {
@@ -24,7 +22,7 @@
 }
 
 .login-section::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -72,10 +70,13 @@
   box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
-
 .login-btn {
   padding: 1rem 3rem;
-  background: linear-gradient(135deg, var(--accent-color) 0%, var(--gold-accent) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--accent-color) 0%,
+    var(--gold-accent) 100%
+  );
   color: white;
   border: none;
   border-radius: 25px;
@@ -89,13 +90,18 @@
 }
 
 .login-btn::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
   transition: left 0.5s;
 }
 

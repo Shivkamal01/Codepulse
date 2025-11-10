@@ -153,27 +153,50 @@ const collegeAverages = {
 
 
 
+// async function populateProfile() {
+//   const defaultRoll = "298-2030"; // Default to Shivam Maurya
+//   const student = await fetchStudentData(defaultRoll);
+
+//   if (student) {
+//     document.getElementById("profileRoll").textContent = defaultRoll;
+//     document.getElementById("profileName").textContent = student.name;
+//     document.getElementById("profileCollege").textContent = student.college || "Unknown College";
+//     document.getElementById("profileBranch").textContent = student.branch || "Unknown Branch";
+//     document.getElementById("profileSemester").textContent = student.semester || "Unknown Semester";
+//     document.getElementById("profileStreak").textContent = (student.streak || 0) + " days";
+
+//     // Fetch GitHub avatar
+//     fetchGitHubAvatar(student.github_username);
+
+//     // Set social links
+//     document.getElementById("linkedinLink").href = student.linkedin || "#";
+//     document.getElementById("githubLink").href = "https://github.com/" + (student.github_username || "");
+//     document.getElementById("codeforcesLink").href = student.codeforces || "#";
+//   }
+// }
+
 async function populateProfile() {
-  const defaultRoll = "298-2030"; // Default to Shivam Maurya
-  const student = await fetchStudentData(defaultRoll);
+  const storedRoll = sessionStorage.getItem('codepulse_student');
+  const raw = localStorage.getItem('codepulse_students');
+  const students = raw ? JSON.parse(raw) : [];
+  const student = students.find(s => s.roll === storedRoll);
 
-  if (student) {
-    document.getElementById("profileRoll").textContent = defaultRoll;
-    document.getElementById("profileName").textContent = student.name;
-    document.getElementById("profileCollege").textContent = student.college || "Unknown College";
-    document.getElementById("profileBranch").textContent = student.branch || "Unknown Branch";
-    document.getElementById("profileSemester").textContent = student.semester || "Unknown Semester";
-    document.getElementById("profileStreak").textContent = (student.streak || 0) + " days";
-
-    // Fetch GitHub avatar
-    fetchGitHubAvatar(student.github_username);
-
-    // Set social links
-    document.getElementById("linkedinLink").href = student.linkedin || "#";
-    document.getElementById("githubLink").href = "https://github.com/" + (student.github_username || "");
-    document.getElementById("codeforcesLink").href = student.codeforces || "#";
+  if (!student) {
+    console.warn("Student not found in localStorage.");
+    return;
   }
+
+  document.getElementById("profileRoll").textContent = student.roll;
+  document.getElementById("profileName").textContent = student.name;
+  document.getElementById("profileCollege").textContent = student.college || "Unknown College";
+  document.getElementById("profileBranch").textContent = student.branch || "Unknown Branch";
+  document.getElementById("profileSemester").textContent = student.semester || "Unknown Semester";
+  document.getElementById("profileStreak").textContent = (student.streak || 0) + " days";
+  document.getElementById("profileAvatar").src = "./images/github.webp";
 }
+
+
+
 
 async function fetchGitHubAvatar(username) {
   const avatarElement = document.getElementById("profileAvatar");

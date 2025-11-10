@@ -142,46 +142,84 @@
     }
 
     // --- Student Login Logic ---
-    document.getElementById("studentLoginForm").addEventListener("submit", function (e) {
-      e.preventDefault();
-      const username = document.getElementById("studentUsername").value.trim();
-      const password = document.getElementById("studentPassword").value.trim();
-      const error = document.getElementById("studentError");
+    // document.getElementById("studentLoginForm").addEventListener("submit", function (e) {
+    //   e.preventDefault();
+    //   const username = document.getElementById("studentUsername").value.trim();
+    //   const password = document.getElementById("studentPassword").value.trim();
+    //   const error = document.getElementById("studentError");
 
 
 
-         if (!username || !password) {
-        error.textContent = "Please enter Student ID and Password.";
-        error.style.display = "block";
-        return;
-      }
+    //      if (!username || !password) {
+    //     error.textContent = "Please enter Student ID and Password.";
+    //     error.style.display = "block";
+    //     return;
+    //   }
 
-      // Demo check (replace with backend)
-      if (username === "Shibu" && password === "1111") {
+    //   // Demo check (replace with backend)
+    //   if (username === "Shibu" && password === "1111") {
 
-          sessionStorage.setItem("codepulse_student", username);
-          sessionStorage.setItem("codepulse_role", "student");
+    //       sessionStorage.setItem("codepulse_student", username);
+    //       sessionStorage.setItem("codepulse_role", "student");
 
-        alert("Student Login Successful! Redirecting...");
-        window.location.href = "dashboard.html";
-      } else {
-        error.textContent = "Invalid Student credentials.";
-        error.style.display = "block";
-      }
+    //     alert("Student Login Successful! Redirecting...");
+    //     window.location.href = "dashboard.html";
+    //   } else {
+    //     error.textContent = "Invalid Student credentials.";
+    //     error.style.display = "block";
+    //   }
 
-      // if (!username || !password) {
-      //   error.textContent = "Please enter both Roll Number and Password.";
-      //   error.style.display = "block";
-      //   return;
-      // }
+    //   // if (!username || !password) {
+    //   //   error.textContent = "Please enter both Roll Number and Password.";
+    //   //   error.style.display = "block";
+    //   //   return;
+    //   // }
 
 
-      // // ✅ Here you can connect your backend authentication
-      // // For demo: accept any non-empty input and redirect
-      // alert("Login successful! Redirecting to your dashboard...");
-      // // window.location.href = "index.html"; // Dashboard page
-      // window.location.href = "dashboard.html"; // Dashboard page
-    });
+    //   // // ✅ Here you can connect your backend authentication
+    //   // // For demo: accept any non-empty input and redirect
+    //   // alert("Login successful! Redirecting to your dashboard...");
+    //   // // window.location.href = "index.html"; // Dashboard page
+    //   // window.location.href = "dashboard.html"; // Dashboard page
+    // });
+
+
+    // --- Student Login Logic (Updated) ---
+document.getElementById("studentLoginForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+  const username = document.getElementById("studentUsername").value.trim(); // roll number
+  const password = document.getElementById("studentPassword").value.trim();
+  const error = document.getElementById("studentError");
+
+  if (!username || !password) {
+    error.textContent = "Please enter Roll Number and Password.";
+    error.style.display = "block";
+    return;
+  }
+
+  const raw = localStorage.getItem('codepulse_students');
+  const students = raw ? JSON.parse(raw) : [];
+  const student = students.find(s => s.roll === username);
+
+  if (!student) {
+    error.textContent = "Student not found. Ask admin to add user.";
+    error.style.display = "block";
+    return;
+  }
+
+  if (student.password !== password) {
+    error.textContent = "Incorrect password.";
+    error.style.display = "block";
+    return;
+  }
+
+  // Success
+  sessionStorage.setItem("codepulse_student", student.roll);
+  sessionStorage.setItem("codepulse_role", "student");
+  alert("Login Successful! Redirecting...");
+  window.location.href = "dashboard.html";
+});
+
 
     // --- Admin Login Logic ---
     document.getElementById("adminLoginForm").addEventListener("submit", function (e) {
