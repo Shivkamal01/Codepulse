@@ -324,66 +324,25 @@
             <div>
               <label class="small">Semester</label>
               <input id="fSemester" class="input" />
-              <div class="input-group">
-                <label for="fSession">Session (Year Range)</label>
-                <input
-                  id="fSession"
-                  class="input"
-                  type="text"
-                  placeholder="e.g. 2024–2028"
-                  required
-                />
-              </div>
-
-              <div class="input-group">
-                <label for="fSection">Section</label>
-                <input
-                  id="fSection"
-                  class="input"
-                  type="text"
-                  placeholder="e.g. CSE–1"
-                  required
-                />
-              </div>
-
-              <div class="input-group">
-                <label for="fEmail">Email</label>
-                <input
-                  id="fEmail"
-                  class="input"
-                  type="email"
-                  placeholder="e.g. student@gmail.com"
-                />
-              </div>
-
-              <div class="input-group">
-                <label for="fLocation">Location</label>
-                <input
-                  id="fLocation"
-                  class="input"
-                  type="text"
-                  placeholder="e.g. Lucknow, UP"
-                />
-              </div>
             </div>
             <div>
               <label class="small">Streak (days)</label>
               <input id="fStreak" class="input" type="number" min="0" />
             </div>
 
-            <div class="full">
-              <label class="small">Email</label>
-              <input id="fEmail" class="input" />
-            </div>
-
             <div>
-              <label class="small">Password</label>
-              <input id="fPassword" class="input" type="password" />
+              <label class="small">Email</label>
+              <input id="fEmail" class="input" type="email" />
             </div>
 
             <div>
               <label class="small">Location</label>
               <input id="fLocation" class="input" />
+            </div>
+
+            <div>
+              <label class="small">Password</label>
+              <input id="fPassword" class="input" type="password" />
             </div>
 
             <div>
@@ -399,6 +358,11 @@
             <div>
               <label class="small">Codeforces URL</label>
               <input id="fCodeforces" class="input" />
+            </div>
+
+            <div>
+              <label class="small">CodeChef URL</label>
+              <input id="fCodechef" class="input" />
             </div>
 
             <div class="full">
@@ -555,6 +519,7 @@
       const fGithub = document.getElementById("fGithub");
       const fLinkedin = document.getElementById("fLinkedin");
       const fCodeforces = document.getElementById("fCodeforces");
+      const fCodechef = document.getElementById("fCodechef");
       const fAttendance = document.getElementById("fAttendance");
       const fMarks = document.getElementById("fMarks");
 
@@ -683,6 +648,7 @@
         fGithub.value = s.github || "";
         fLinkedin.value = s.linkedin || "";
         fCodeforces.value = s.codeforces || "";
+        fCodechef.value = s.codechef || "";
         fAttendance.value = s.attendance || "";
         fMarks.value = s.marks || "[]";
       }
@@ -777,6 +743,7 @@
         const github = fGithub.value.trim();
         const linkedin = fLinkedin.value.trim();
         const codeforces = fCodeforces.value.trim();
+        const codechef = fCodechef.value.trim();
         const attendance = fAttendance.value.trim();
         const marks = fMarks.value.trim();
         const password = document.getElementById("fPassword").value; // new line
@@ -1020,6 +987,7 @@
               fGithub.value = existing ? existing.github || "" : "";
               fLinkedin.value = existing ? existing.linkedin || "" : "";
               fCodeforces.value = existing ? existing.codeforces || "" : "";
+              fCodechef.value = existing ? existing.codechef || "" : "";
               fAttendance.value = existing ? existing.attendance || "" : "";
               fMarks.value = existing ? existing.marks || "[]" : "[]";
               document.getElementById("fPassword").value = existing

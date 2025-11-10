@@ -1,113 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CodePulse Attendance</title>
-  <link rel="stylesheet" href="common.css" />
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <header class="header">
-        <h1>Attendance</h1>
-        <div class="nav-links">
-          <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="attendance.html">Attendance</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="login.html">Login</a></li>
-          </ul>
-        </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CodePulse Attendance</title>
+    <link rel="stylesheet" href="common.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="header">
+      <h1>Attendance</h1>
+      <div class="nav-links">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="attendance.html">Attendance</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="login.html">Login</a></li>
+        </ul>
+      </div>
     </header>
-  <div class="dashboard">
-    <div class="card profile-card">
-      <div class="profile">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0pR2J6X_T5WSpHqmZv9RDFuvNTMAgYXARpQ&s" alt="Shivam Maurya" />
-        <h2>Shivam Maurya</h2>
-        <p>BTech. Computer Science & Engineering</p>
-        <p>Reg No: 298-2030</p>
-        <p>Email: shivam@example.com</p>
-        <p>Address: Lucknow, Uttar Pradesh</p>
-      </div>
-    </div>
-
-    <div class="card attendance-card">
-      <div class="attendance">
-        <h3>Attendance (Last 30 Days)</h3>
-        <div class="subject">
-          <label>Engineering Graphics</label>
-          <div class="progress-circle" data-value="85"></div>
-        </div>
-        <div class="subject">
-          <label>Mathematical Engineering</label>
-          <div class="progress-circle" data-value="60"></div>
-        </div>
-        <div class="subject">
-          <label>Data Structures</label>
-          <div class="progress-circle" data-value="75"></div>
-        </div>
-        <div class="subject">
-          <label>Algorithms</label>
-          <div class="progress-circle" data-value="90"></div>
-        </div>
-        <div class="subject">
-          <label>Operating Systems</label>
-          <div class="progress-circle" data-value="80"></div>
+    <div class="dashboard">
+      <div class="card profile-card">
+        <div class="profile">
+          <img
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0pR2J6X_T5WSpHqmZv9RDFuvNTMAgYXARpQ&s"
+            alt="Shivam Maurya"
+          />
+          <h2 id="attendanceName"></h2>
+          <p id="attendanceCourse">BTech. Computer Science & Engineering</p>
+          <p>Reg No: <span id="attendanceRoll"></span></p>
+          <p>College: <span id="attendanceCollege"></span></p>
+          <p>Branch: <span id="attendanceBranch"></span></p>
+          <p>Semester: <span id="attendanceSemester"></span></p>
+          <p>Streak: <span id="attendanceStreak"></span> days</p>
+          <p>Email: <span id="attendanceEmail"></span></p>
+          <p>Address: <span id="attendanceLocation"></span></p>
         </div>
       </div>
-    </div>
 
-    <div class="card timetable-card">
-      <div class="timetable">
-        <h3>Today's Timetable</h3>
-        <ul>
-          <li><strong>09:00 AM</strong> — DBMS (CS200) Lecture</li>
-          <li><strong>11:00 AM</strong> — Computer Architecture (CS300) Lecture</li>
-        </ul>
+      <div class="card attendance-card">
+        <div class="attendance">
+          <h3>Attendance (Last 30 Days)</h3>
+          <div class="overall-attendance">
+            <label>Overall Attendance</label>
+            <div
+              class="progress-circle"
+              id="overallAttendance"
+              data-value="78"
+            ></div>
+          </div>
+          <div
+            class="subject-wise"
+            id="subjectWiseAttendance"
+            style="display: none"
+          >
+            <h4>Subject-wise Attendance</h4>
+            <div class="subject">
+              <label>Engineering Graphics</label>
+              <div class="progress-circle" data-value="85"></div>
+            </div>
+            <div class="subject">
+              <label>Mathematical Engineering</label>
+              <div class="progress-circle" data-value="60"></div>
+            </div>
+            <div class="subject">
+              <label>Data Structures</label>
+              <div class="progress-circle" data-value="75"></div>
+            </div>
+            <div class="subject">
+              <label>Algorithms</label>
+              <div class="progress-circle" data-value="90"></div>
+            </div>
+            <div class="subject">
+              <label>Operating Systems</label>
+              <div class="progress-circle" data-value="80"></div>
+            </div>
+          </div>
+          <button id="toggleSubjects" onclick="toggleSubjectWise()">
+            View Subject-wise Attendance
+          </button>
+        </div>
       </div>
-    </div>
 
-    <div class="card grades-card">
-      <div class="grades">
-        <h3>Grades</h3>
-        <ul>
-          <li><strong>Engineering Graphics:</strong> A</li>
-          <li><strong>Mathematical Engineering:</strong> B+</li>
-          <li><strong>Data Structures:</strong> A-</li>
-          <li><strong>Algorithms:</strong> A</li>
-          <li><strong>Operating Systems:</strong> B</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="card quiz-card">
-      <div class="quiz-marks">
-        <h3>Quiz Marks</h3>
-        <div class="marks-section">
-          <h4>Quiz Marks</h4>
+      <div class="card timetable-card">
+        <div class="timetable">
+          <h3>Today's Timetable</h3>
           <ul>
-            <li><strong>Engineering Graphics Quiz 1:</strong> 85/100</li>
-            <li><strong>Mathematical Engineering Quiz 2:</strong> 92/100</li>
-            <li><strong>Data Structures Quiz 1:</strong> 78/100</li>
-            <li><strong>Algorithms Quiz 2:</strong> 88/100</li>
-            <li><strong>Operating Systems Quiz 1:</strong> 90/100</li>
+            <li><strong>09:00 AM</strong> — DBMS (CS200) Lecture</li>
+            <li>
+              <strong>11:00 AM</strong> — Computer Architecture (CS300) Lecture
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card grades-card">
+        <div class="grades">
+          <h3>Grades</h3>
+          <ul>
+            <li><strong>Engineering Graphics:</strong> A</li>
+            <li><strong>Mathematical Engineering:</strong> B+</li>
+            <li><strong>Data Structures:</strong> A-</li>
+            <li><strong>Algorithms:</strong> A</li>
+            <li><strong>Operating Systems:</strong> B</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card quiz-card">
+        <div class="quiz-marks">
+          <h3>Quiz Marks</h3>
+          <div class="marks-section">
+            <h4>Quiz Marks</h4>
+            <ul>
+              <li><strong>Engineering Graphics Quiz 1:</strong> 85/100</li>
+              <li><strong>Mathematical Engineering Quiz 2:</strong> 92/100</li>
+              <li><strong>Data Structures Quiz 1:</strong> 78/100</li>
+              <li><strong>Algorithms Quiz 2:</strong> 88/100</li>
+              <li><strong>Operating Systems Quiz 1:</strong> 90/100</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="card announcements-card">
+        <div class="announcements">
+          <h3>Announcements</h3>
+          <ul>
+            <li>
+              <strong>Academic:</strong> Summer training internship with Live
+              Projects.
+            </li>
+            <li>
+              <strong>Sports:</strong> Inter-university sports organization.
+            </li>
+            <li>
+              <strong>Examination:</strong> Instructions for Mid Term
+              Examination.
+            </li>
           </ul>
         </div>
       </div>
     </div>
 
-    <div class="card announcements-card">
-      <div class="announcements">
-        <h3>Announcements</h3>
-        <ul>
-          <li><strong>Academic:</strong> Summer training internship with Live Projects.</li>
-          <li><strong>Sports:</strong> Inter-university sports organization.</li>
-          <li><strong>Examination:</strong> Instructions for Mid Term Examination.</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <script src="attend.js"></script>
-</body>
+    <script src="attend.js"></script>
+  </body>
 </html>

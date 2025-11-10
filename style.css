@@ -1320,3 +1320,32 @@ body {
     padding: 1rem;
   }
 }
+
+/* Attendance Progress Circles */
+.progress-circle {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: conic-gradient(
+    var(--accent-color) calc(var(--percentage) * 1%),
+    #e0e0e0 0deg
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: var(--text-color);
+  transition: var(--transition);
+}
+
+.progress-circle::before {
+  content: attr(data-value) "%";
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  background: var(--card-bg);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;

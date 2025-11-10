@@ -1,66 +1,36 @@
-// API base URL
-const API_BASE = 'http://localhost/CodePulse/';
-
-// Function to fetch student data from API
-async function fetchStudentData(roll = '298-2030') {
-  try {
-    const response = await fetch(`${API_BASE}get_student.php?roll=${roll}`);
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return await response.json();
-  } catch (error) {
-    console.error('Error fetching student data:', error);
-    return null;
-  }
+// LocalStorage-based data functions
+function getStudents() {
+  const raw = localStorage.getItem('codepulse_students');
+  return raw ? JSON.parse(raw) : [];
 }
 
-// Function to fetch stats data from API
-async function fetchStatsData(roll = '298-2030') {
-  try {
-    const response = await fetch(`${API_BASE}get_stats.php?roll=${roll}`);
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return await response.json();
-  } catch (error) {
-    console.error('Error fetching stats data:', error);
-    return null;
-  }
+function getStudentByRoll(roll) {
+  const students = getStudents();
+  return students.find(s => s.roll === roll) || null;
 }
 
-// Function to fetch leaderboard data from API
-async function fetchLeaderboardData(filterBy = 'overall', subFilter = '', sortBy = 'rank') {
-  try {
-    const params = new URLSearchParams({
-      filterBy: filterBy,
-      subFilter: subFilter,
-      sortBy: sortBy
+function getLeaderboardData(filterBy = 'overall', subFilter = '', sortBy = 'rank') {
+  let students = getStudents();
+
+  // Filter
+  if (filterBy === 'branch' && subFilter) {
+    students = students.filter(s => s.branch === subFilter);
+  } else if (filterBy === 'semester' && subFilter) {
+    students = students.filter(s => s.semester === subFilter);
+  }
+
+  // Sort
+  if (sortBy === 'rank') {
+    students.sort((a, b) => {
+      const aRank = a.codechef?.rank || a.leetcode?.history?.[0]?.rank || a.hackerrank?.rank || 9999;
+      const bRank = b.codechef?.rank || b.leetcode?.history?.[0]?.rank || b.hackerrank?.rank || 9999;
+      return aRank - bRank;
     });
-    const response = await fetch(`${API_BASE}get_leaderboard.php?${params}`);
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return await response.json();
-  } catch (error) {
-    console.error('Error fetching leaderboard data:', error);
-    return [];
+  } else if (sortBy === 'name') {
+    students.sort((a, b) => a.name.localeCompare(b.name));
   }
-}
 
-// Function to fetch DSA data from API
-async function fetchDSAData(roll = null) {
-  try {
-    const url = roll ? `${API_BASE}get_dsa.php?roll=${roll}` : `${API_BASE}get_dsa.php`;
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return await response.json();
-  } catch (error) {
-    console.error('Error fetching DSA data:', error);
-    return null;
-  }
+  return students;
 }
 
 // Mock data for achievements
@@ -351,10 +321,42 @@ window.onload = function() {
 };
 
 async function renderRankGraphs() {
-  const defaultRoll = "298-2030"; // Default to Shivam Maurya
-  const statsData = await fetchStatsData(defaultRoll);
+  const storedRoll = sessionStorage.getItem('codepulse_student');
+  const student = getStudentByRoll(storedRoll);
 
-  if (!statsData) return;
+  if (!student) return;
+
+  // Mock stats data for charts
+  const statsData = {
+    codechef: {
+      history: [
+        { date: "2023-01-01", rank: 2500 },
+        { date: "2023-02-01", rank: 2400 },
+        { date: "2023-03-01", rank: 2300 },
+        { date: "2023-04-01", rank: 2200 },
+        { date: "2023-05-01", rank: 2100 }
+      ]
+    },
+    leetcode: {
+      history: [
+        { date: "2023-01-01", rank: 3000 },
+        { date: "2023-02-01", rank: 2900 },
+        { date: "2023-03-01", rank: 2800 },
+        { date: "2023-04-01", rank: 2700 },
+        { date: "2023-05-01", rank: 2600 }
+      ]
+    },
+    hackerrank: {
+      history: [
+        { date: "2023-01-01", rank: 1800 },
+        { date: "2023-02-01", rank: 1700 },
+        { date: "2023-03-01", rank: 1600 },
+        { date: "2023-04-01", rank: 1500 },
+        { date: "2023-05-01", rank: 1400 }
+      ]
+    },
+    collegeAverages: collegeAverages
+  };
 
   // CodeChef Chart
   const codechefCtx = document.getElementById('codechefChart').getContext('2d');
@@ -513,12 +515,12 @@ async function renderRankGraphs() {
   });
 }
 
-async function renderLeaderboard() {
+function renderLeaderboard() {
   const filterBy = document.getElementById("filterBy").value;
   const subFilter = document.getElementById("subFilter").value;
   const sortBy = document.getElementById("sortBy").value;
 
-  let students = await fetchLeaderboardData(filterBy, subFilter, sortBy);
+  let students = getLeaderboardData(filterBy, subFilter, sortBy);
 
   const leaderboardList = document.getElementById("leaderboard-list");
   leaderboardList.innerHTML = "";
@@ -536,9 +538,9 @@ async function renderLeaderboard() {
         </div>
       </div>
       <div class="student-stats">
-        <div>CodeChef: ${student.codechef.rank}</div>
-        <div>LeetCode: ${student.leetcode.history[0].rank}</div>
-        <div>HackerRank: ${student.hackerrank.rank}</div>
+        <div>CodeChef: ${student.codechef?.rank || 'N/A'}</div>
+        <div>LeetCode: ${student.leetcode?.history?.[0]?.rank || 'N/A'}</div>
+        <div>HackerRank: ${student.hackerrank?.rank || 'N/A'}</div>
       </div>
     `;
     leaderboardList.appendChild(leaderboardItem);
@@ -548,18 +550,18 @@ async function renderLeaderboard() {
   });
 }
 
-async function setupLeaderboardFilters() {
+function setupLeaderboardFilters() {
   const filterBySelect = document.getElementById("filterBy");
   const subFilterSelect = document.getElementById("subFilter");
   const sortBySelect = document.getElementById("sortBy");
 
-  filterBySelect.addEventListener("change", async function() {
+  filterBySelect.addEventListener("change", function() {
     const filterValue = this.value;
     subFilterSelect.innerHTML = '<option value="">Select...</option>';
     subFilterSelect.style.display = "none";
 
     if (filterValue === "branch") {
-      const students = await fetchLeaderboardData();
+      const students = getLeaderboardData();
       const branches = [...new Set(students.map(s => s.branch))];
       branches.forEach(branch => {
         const option = document.createElement("option");
@@ -569,7 +571,7 @@ async function setupLeaderboardFilters() {
       });
       subFilterSelect.style.display = "inline-block";
     } else if (filterValue === "semester") {
-      const students = await fetchLeaderboardData();
+      const students = getLeaderboardData();
       const semesters = [...new Set(students.map(s => s.semester))];
       semesters.forEach(semester => {
         const option = document.createElement("option");
