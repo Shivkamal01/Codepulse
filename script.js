@@ -165,6 +165,35 @@ async function populateProfile() {
   document.getElementById("profileEmail").textContent = student.email || "Not provided";
   document.getElementById("profileLocation").textContent = student.location || "Not provided";
   document.getElementById("profileAvatar").src = "./images/github.webp";
+
+  // Populate quiz marks
+  populateQuizMarks(student);
+}
+
+function populateQuizMarks(student) {
+  const marks = student.marks ? JSON.parse(student.marks) : [];
+  const subjectMap = {
+    "Mathematics": "math-score",
+    "Physics": "physics-score",
+    "Chemistry": "chemistry-score",
+    "Computer Science": "cs-score",
+    "Data Structures": "ds-score",
+    "Algorithms": "algo-score",
+    "Operating Systems": "os-score"
+  };
+
+  // Reset all to N/A
+  Object.values(subjectMap).forEach(id => {
+    document.getElementById(id).textContent = "N/A";
+  });
+
+  // Set marks for available subjects
+  marks.forEach(mark => {
+    const id = subjectMap[mark.subject];
+    if (id) {
+      document.getElementById(id).textContent = mark.marks + "%";
+    }
+  });
 }
 
 

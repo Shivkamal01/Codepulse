@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CodePulse Attendance</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
     <link rel="stylesheet" href="common.css" />
     <link rel="stylesheet" href="style.css" />
   </head>
@@ -48,6 +52,7 @@
               id="overallAttendance"
               data-value="78"
             ></div>
+            <div class="attendance-stats" id="overallStats"></div>
           </div>
           <div
             class="subject-wise"
@@ -55,25 +60,8 @@
             style="display: none"
           >
             <h4>Subject-wise Attendance</h4>
-            <div class="subject">
-              <label>Engineering Graphics</label>
-              <div class="progress-circle" data-value="85"></div>
-            </div>
-            <div class="subject">
-              <label>Mathematical Engineering</label>
-              <div class="progress-circle" data-value="60"></div>
-            </div>
-            <div class="subject">
-              <label>Data Structures</label>
-              <div class="progress-circle" data-value="75"></div>
-            </div>
-            <div class="subject">
-              <label>Algorithms</label>
-              <div class="progress-circle" data-value="90"></div>
-            </div>
-            <div class="subject">
-              <label>Operating Systems</label>
-              <div class="progress-circle" data-value="80"></div>
+            <div id="subjectsList">
+              <!-- Subjects will be populated dynamically -->
             </div>
           </div>
           <button id="toggleSubjects" onclick="toggleSubjectWise()">
@@ -84,25 +72,29 @@
 
       <div class="card timetable-card">
         <div class="timetable">
-          <h3>Today's Timetable</h3>
-          <ul>
-            <li><strong>09:00 AM</strong> — DBMS (CS200) Lecture</li>
-            <li>
-              <strong>11:00 AM</strong> — Computer Architecture (CS300) Lecture
-            </li>
-          </ul>
+          <h3>Timetable</h3>
+          <div class="day-selector">
+            <label for="daySelect">Select Day:</label>
+            <select id="daySelect" onchange="loadTimetable()">
+              <option value="monday">Monday</option>
+              <option value="tuesday">Tuesday</option>
+              <option value="wednesday">Wednesday</option>
+              <option value="thursday">Thursday</option>
+              <option value="friday">Friday</option>
+              <option value="saturday">Saturday</option>
+            </select>
+          </div>
+          <div id="timetableContent">
+            <!-- Timetable will be populated dynamically -->
+          </div>
         </div>
       </div>
 
       <div class="card grades-card">
         <div class="grades">
-          <h3>Grades</h3>
-          <ul>
-            <li><strong>Engineering Graphics:</strong> A</li>
-            <li><strong>Mathematical Engineering:</strong> B+</li>
-            <li><strong>Data Structures:</strong> A-</li>
-            <li><strong>Algorithms:</strong> A</li>
-            <li><strong>Operating Systems:</strong> B</li>
+          <h3>Subject-wise Grades</h3>
+          <ul id="gradesContent">
+            <!-- Grades will be populated dynamically -->
           </ul>
         </div>
       </div>
@@ -112,12 +104,8 @@
           <h3>Quiz Marks</h3>
           <div class="marks-section">
             <h4>Quiz Marks</h4>
-            <ul>
-              <li><strong>Engineering Graphics Quiz 1:</strong> 85/100</li>
-              <li><strong>Mathematical Engineering Quiz 2:</strong> 92/100</li>
-              <li><strong>Data Structures Quiz 1:</strong> 78/100</li>
-              <li><strong>Algorithms Quiz 2:</strong> 88/100</li>
-              <li><strong>Operating Systems Quiz 1:</strong> 90/100</li>
+            <ul id="quizMarksContent">
+              <!-- Quiz marks will be populated dynamically -->
             </ul>
           </div>
         </div>
@@ -126,15 +114,18 @@
       <div class="card announcements-card">
         <div class="announcements">
           <h3>Announcements</h3>
-          <ul>
-            <li>
+          <ul class="announcements-list">
+            <li class="announcement-item academic">
+              <i class="fas fa-graduation-cap"></i>
               <strong>Academic:</strong> Summer training internship with Live
               Projects.
             </li>
-            <li>
+            <li class="announcement-item sports">
+              <i class="fas fa-trophy"></i>
               <strong>Sports:</strong> Inter-university sports organization.
             </li>
-            <li>
+            <li class="announcement-item exams">
+              <i class="fas fa-file-alt"></i>
               <strong>Examination:</strong> Instructions for Mid Term
               Examination.
             </li>

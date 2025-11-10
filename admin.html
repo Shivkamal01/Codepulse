@@ -4,6 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Admin Dashboard — CodePulse</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
     <link rel="stylesheet" href="style.css" />
     <style>
       /* Small admin-specific overrides */
@@ -272,6 +276,79 @@
             />
           </label>
           <button id="logoutBtn" class="btn">Logout</button>
+        </div>
+      </div>
+
+      <!-- Attendance Management Section -->
+      <div class="card">
+        <h3>Mark Attendance</h3>
+        <div
+          style="
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+          "
+        >
+          <label for="attendanceDate">Date:</label>
+          <input type="date" id="attendanceDate" value="" />
+          <label for="attendanceSubject">Subject:</label>
+          <select
+            id="attendanceSubject"
+            class="input"
+            style="width: auto; padding: 8px"
+          >
+            <option value="Math">Math</option>
+            <option value="Physics">Physics</option>
+            <option value="Chemistry">Chemistry</option>
+            <option value="Computer Science">Computer Science</option>
+            <option value="English">English</option>
+          </select>
+          <button id="markAttendanceBtn" class="btn btn-primary">
+            Mark Attendance
+          </button>
+        </div>
+        <div id="attendanceList" style="max-height: 400px; overflow-y: auto">
+          <!-- Student list for attendance will be rendered here -->
+        </div>
+      </div>
+
+      <!-- Quiz Marks Management Section -->
+      <div class="card">
+        <h3>Edit Quiz Marks</h3>
+        <div
+          style="
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+          "
+        >
+          <label for="quizSubject">Subject:</label>
+          <select
+            id="quizSubject"
+            class="input"
+            style="width: auto; padding: 8px"
+          >
+            <option value="Mathematics">Mathematics</option>
+            <option value="Physics">Physics</option>
+            <option value="Chemistry">Chemistry</option>
+            <option value="Computer Science">Computer Science</option>
+            <option value="Data Structures">Data Structures</option>
+            <option value="Algorithms">Algorithms</option>
+            <option value="Operating Systems">Operating Systems</option>
+          </select>
+          <button id="loadQuizMarksBtn" class="btn btn-primary">
+            Load Quiz Marks
+          </button>
+          <button id="saveQuizMarksBtn" class="btn btn-primary">
+            Save Quiz Marks
+          </button>
+        </div>
+        <div id="quizMarksList" style="max-height: 400px; overflow-y: auto">
+          <!-- Quiz marks table will be rendered here -->
         </div>
       </div>
 
@@ -577,11 +654,14 @@
           const parts = att.split(",");
           const last = parts[parts.length - 1];
           if (last.includes(":")) {
-            const val = last.split(":")[1].trim();
-            if (/present/i.test(val))
-              return `<span class="badge badge-present">Present</span>`;
-            if (/absent/i.test(val))
-              return `<span class="badge badge-absent">Absent</span>`;
+            const segments = last.split(":");
+            if (segments.length >= 3) {
+              const status = segments[2].trim();
+              if (/present/i.test(status))
+                return `<span class="badge badge-present">Present</span>`;
+              if (/absent/i.test(status))
+                return `<span class="badge badge-absent">Absent</span>`;
+            }
           }
         } catch (e) {}
         return `<span class="muted">Recorded</span>`;
@@ -890,8 +970,204 @@
         window.location.href = "index.html";
       });
 
+      // --- Attendance Management ---
+      const attendanceDate = document.getElementById("attendanceDate");
+      const markAttendanceBtn = document.getElementById("markAttendanceBtn");
+      const attendanceList = document.getElementById("attendanceList");
+
+      // Set default date to today
+      const today = new Date().toISOString().split("T")[0];
+      attendanceDate.value = today;
+
+      function renderAttendanceList() {
+        const students = readStudents();
+        attendanceList.innerHTML = "";
+
+        if (students.length === 0) {
+          attendanceList.innerHTML = "<p class='muted'>No students found.</p>";
+          return;
+        }
+
+        students.forEach((student) => {
+          const div = document.createElement("div");
+          div.style.display = "flex";
+          div.style.alignItems = "center";
+          div.style.gap = "12px";
+          div.style.padding = "8px";
+          div.style.borderBottom = "1px solid rgba(0,0,0,0.06)";
+
+          const checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.id = `att-${student.roll}`;
+          checkbox.dataset.roll = student.roll;
+
+          const label = document.createElement("label");
+          label.htmlFor = `att-${student.roll}`;
+          label.textContent = `${student.name} (${student.roll})`;
+          label.style.flex = "1";
+
+          div.appendChild(checkbox);
+          div.appendChild(label);
+          attendanceList.appendChild(div);
+        });
+      }
+
+      markAttendanceBtn.addEventListener("click", function () {
+        const date = attendanceDate.value;
+        const subject = document.getElementById("attendanceSubject").value;
+        if (!date) {
+          alert("Please select a date.");
+          return;
+        }
+        if (!subject) {
+          alert("Please select a subject.");
+          return;
+        }
+
+        const students = readStudents();
+        const checkboxes = attendanceList.querySelectorAll(
+          'input[type="checkbox"]'
+        );
+
+        checkboxes.forEach((checkbox) => {
+          const roll = checkbox.dataset.roll;
+          const student = students.find((s) => s.roll === roll);
+          if (student) {
+            const status = checkbox.checked ? "present" : "absent";
+            const entry = `${date}:${subject}:${status}`;
+
+            // Check if date and subject already exists in attendance
+            const existingEntries = student.attendance
+              ? student.attendance.split(",")
+              : [];
+            const existingIndex = existingEntries.findIndex((e) =>
+              e.startsWith(`${date}:${subject}:`)
+            );
+
+            if (existingIndex !== -1) {
+              // Update existing entry
+              existingEntries[existingIndex] = entry;
+            } else {
+              // Add new entry
+              existingEntries.push(entry);
+            }
+
+            student.attendance = existingEntries.join(",");
+          }
+        });
+
+        writeStudents(students);
+        renderTable(searchInput.value || "");
+        alert("Attendance marked successfully!");
+      });
+
+      // --- Quiz Marks Management ---
+      const loadQuizMarksBtn = document.getElementById("loadQuizMarksBtn");
+      const saveQuizMarksBtn = document.getElementById("saveQuizMarksBtn");
+      const quizMarksList = document.getElementById("quizMarksList");
+
+      function renderQuizMarksTable(subject) {
+        const students = readStudents();
+        quizMarksList.innerHTML = "";
+
+        if (students.length === 0) {
+          quizMarksList.innerHTML = "<p class='muted'>No students found.</p>";
+          return;
+        }
+
+        const table = document.createElement("table");
+        table.style.width = "100%";
+        table.style.borderCollapse = "collapse";
+
+        const thead = document.createElement("thead");
+        thead.innerHTML = `
+          <tr>
+            <th style="padding: 8px; border-bottom: 1px solid rgba(0,0,0,0.06); text-align: left;">Roll</th>
+            <th style="padding: 8px; border-bottom: 1px solid rgba(0,0,0,0.06); text-align: left;">Name</th>
+            <th style="padding: 8px; border-bottom: 1px solid rgba(0,0,0,0.06); text-align: left;">Quiz Marks</th>
+          </tr>
+        `;
+        table.appendChild(thead);
+
+        const tbody = document.createElement("tbody");
+        students.forEach((student) => {
+          const tr = document.createElement("tr");
+
+          // Get current marks for the subject
+          let currentMarks = "";
+          try {
+            const marksArray = JSON.parse(student.marks || "[]");
+            const subjectMark = marksArray.find((m) => m.subject === subject);
+            if (subjectMark) {
+              currentMarks = subjectMark.marks || "";
+            }
+          } catch (e) {
+            console.warn("Error parsing marks for student", student.roll, e);
+          }
+
+          tr.innerHTML = `
+            <td style="padding: 8px; border-bottom: 1px solid rgba(0,0,0,0.06);">${escapeHtml(
+              student.roll || ""
+            )}</td>
+            <td style="padding: 8px; border-bottom: 1px solid rgba(0,0,0,0.06);">${escapeHtml(
+              student.name || ""
+            )}</td>
+            <td style="padding: 8px; border-bottom: 1px solid rgba(0,0,0,0.06);">
+              <input type="number" min="0" max="100" value="${currentMarks}" data-roll="${
+            student.roll
+          }" style="width: 80px; padding: 4px; border: 1px solid rgba(0,0,0,0.08); border-radius: 4px;" />
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+        table.appendChild(tbody);
+        quizMarksList.appendChild(table);
+      }
+
+      loadQuizMarksBtn.addEventListener("click", function () {
+        const subject = document.getElementById("quizSubject").value;
+        if (!subject) {
+          alert("Please select a subject.");
+          return;
+        }
+        renderQuizMarksTable(subject);
+      });
+
+      saveQuizMarksBtn.addEventListener("click", function () {
+        const subject = document.getElementById("quizSubject").value;
+        if (!subject) {
+          alert("Please select a subject.");
+          return;
+        }
+
+        const students = readStudents();
+        const inputs = quizMarksList.querySelectorAll('input[type="number"]');
+
+        inputs.forEach((input) => {
+          const roll = input.dataset.roll;
+          const marks = parseInt(input.value) || 0;
+          const student = students.find((s) => s.roll === roll);
+          if (student) {
+            try {
+              let marksArray = JSON.parse(student.marks || "[]");
+              // Remove existing entry for this subject
+              marksArray = marksArray.filter((m) => m.subject !== subject);
+              // Add new entry
+              marksArray.push({ subject, marks });
+              student.marks = JSON.stringify(marksArray);
+            } catch (e) {
+              console.warn("Error updating marks for student", roll, e);
+            }
+          }
+        });
+
+        writeStudents(students);
+        alert("Quiz marks saved successfully!");
+      });
+
       // initial render
       renderTable();
+      renderAttendanceList();
 
       // ========== Seat-grid / Year-Section logic for admin ==========
       (function () {
@@ -934,11 +1210,14 @@
           const grid = document.createElement("div");
           grid.className = "seat-grid";
 
+          // Only show occupied seats (1-30 that have students)
           for (let seat = 1; seat <= 30; seat++) {
             const roll = `${year}_${section}_${String(seat).padStart(2, "0")}`;
             const student = students.find((s) => s.roll === roll);
+            if (!student) continue; // Skip empty seats
+
             const tile = document.createElement("div");
-            tile.className = "seat-tile " + (student ? "occupied" : "empty");
+            tile.className = "seat-tile occupied";
             tile.dataset.roll = roll;
 
             const rEl = document.createElement("div");
@@ -947,9 +1226,9 @@
 
             const nEl = document.createElement("div");
             nEl.className = "seat-name";
-            nEl.textContent = student
-              ? `${student.name || "Student"} (${student.section || ""})`
-              : "Empty";
+            nEl.textContent = `${student.name || "Student"} (${
+              student.section || ""
+            })`;
 
             tile.appendChild(rEl);
             tile.appendChild(nEl);
@@ -1001,7 +1280,15 @@
             grid.appendChild(tile);
           }
 
-          seatGridContainer.appendChild(grid);
+          // If no occupied seats, show message
+          if (grid.children.length === 0) {
+            const emptyMsg = document.createElement("p");
+            emptyMsg.className = "muted";
+            emptyMsg.textContent = "No students found in this section.";
+            seatGridContainer.appendChild(emptyMsg);
+          } else {
+            seatGridContainer.appendChild(grid);
+          }
         }
 
         generateSeatsBtn.addEventListener("click", () => {
