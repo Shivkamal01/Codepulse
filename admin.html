@@ -4,116 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Admin Dashboard — CodePulse</title>
-    <link rel="stylesheet" href="admin.css" />
-  </head>
-  <body class="">
-    <div class="admin-container">
-      <div class="admin-header">
-        <div>
-          <h1>Admin Dashboard</h1>
 
-          <div class="admin-seat-controls">
-            <div class="seat-controls-row">
-              <label class="small" for="yearSelect">Select Year</label>
-              <select id="yearSelect" class="input" aria-label="Select Year"></select>
-
-              <label class="small" for="sectionSelect">Select Section</label>
-              <select id="sectionSelect" class="input" aria-label="Select Section"></select>
-
-              <button id="generateSeatsBtn" class="btn btn-primary" type="button">Show Seats</button>
-            </div>
-
-            <div class="card" aria-hidden="false">
-              <div id="seatGridContainer" aria-live="polite"></div>
-            </div>
-          </div>
-
-          <div class="muted">Manage student details, attendance, marks and exports</div>
-        </div>
-
-        <div class="controls" role="group" aria-label="Dashboard controls">
-          <input  id="searchInput"  class="search-input"  placeholder="Search by name / roll / branch"  aria-label="Search students"
-          />
-          <button id="addStudentBtn" class="btn btn-primary" type="button">+ Add Student</button>
-          <button id="exportBtn" class="btn btn-ghost" type="button">Export JSON</button>
-
-          <label class="btn btn-ghost" style="cursor: pointer">
-            Import JSON
-            <input id="importFile" type="file" accept="application/json" style="display: none"
-            />
-          </label>
-
-          <button id="logoutBtn" class="btn" type="button">Logout</button>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="table-wrap">
-          <table id="studentsTable" aria-live="polite">
-            <thead>
-              <tr>
-                <th>Roll</th>
-                <th>Name</th>
-                <th>Branch</th>
-                <th>Semester</th>
-                <th>Streak</th>
-                <th>Attendance</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody id="studentsTbody">
-              <!-- rendered by JS -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- View / Edit Modal -->
-    <div id="modal" class="modal" style="display: none;" aria-hidden="true">
-    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-        <!-- Close (cross) button -->
-    <button  type="button"  id="modalCloseBtn"  class="modal-close"  aria-label="Close dialog">
-      &times;
-    </button>
-
-        <h2 id="modalTitle">Student</h2>
-
-        <form id="studentForm" autocomplete="off" novalidate>
-          <div class="form-grid" id="formGrid">
-            <div>
-              <label class="small" for="fRoll">Roll Number</label>
-              <input id="fRoll" class="input" required />
-            </div>
-
-            <div>
-              <label class="small" for="fName">Name</label>
-              <input id="fName" class="input" required />
-            </div>
-
-            <div>
-              <label class="small" for="fCollege">College</label>
-              <input id="fCollege" class="input" />
-            </div>
-
-            <div>
-              <label class="small" for="fBranch">Branch</label>
-              <input id="fBranch" class="input" />
-            </div>
-
-            <div>
-              <label class="small" for="fSemester">Semester</label>
-              <input id="fSemester" class="input" />
-            </div>
-
-            <div>
-              <label class="small" for="fSession">Session (Year Range)</label>
-              <input id="fSession" class="input" type="text" placeholder="e.g. 2024–2028" />
-            </div>
-
-            <div>
-              <label class="small" for="fSection">Section</label>
-              <input id="fSection" class="input" type="text" placeholder="e.g. CSE–1"/>
             </div>
 
             <div>
@@ -122,17 +13,7 @@
             </div>
 
             <div>
-              <label class="small" for="fLocation">Location</label>
-              <input id="fLocation" class="input" type="text" placeholder="e.g. Lucknow, UP">
-            </div>
 
-            <div>
-              <label class="small" for="fStreak">Streak (days)</label>
-              <input id="fStreak" class="input" type="number" min="0" />
-            </div>
-
-            <div>
-              <label class="small" for="fPassword">Password</label>
               <input id="fPassword" class="input" type="password" />
             </div>
 
@@ -149,6 +30,11 @@
             <div>
               <label class="small" for="fCodeforces">Codeforces URL</label>
               <input id="fCodeforces" class="input" />
+            </div>
+
+            <div>
+              <label class="small">CodeChef URL</label>
+              <input id="fCodechef" class="input" />
             </div>
 
             <div class="full">
@@ -184,7 +70,3 @@
         </form>
       </div>
     </div>
-
-    <script src="admin.js"></script>
-  </body>
-</html>

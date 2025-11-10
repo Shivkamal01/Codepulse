@@ -1,58 +1,81 @@
-// Load and display attendance data from JSON file
+// Function to populate attendance page with student data from localStorage
+function populateAttendancePage() {
+  const storedRoll = sessionStorage.getItem('codepulse_student');
+  const raw = localStorage.getItem('codepulse_students');
+  const students = raw ? JSON.parse(raw) : [];
+  const student = students.find(s => s.roll === storedRoll);
 
-fetch('attendance.json')
-      .then(res => res.json())
-      .then(data => {
-        const tbody = document.querySelector('#attendanceTable tbody');
-        data.forEach(record => {
-          const row = `<tr>
-            <td>${record.subject}</td>
-            <td>${record.totalClasses}</td>
-            <td>${record.attended}</td>
-            <td>${record.percentage}</td>
-          </tr>`;
-          tbody.innerHTML += row;
-        });
-      });
+  if (!student) {
+    console.warn("Student not found in localStorage for attendance page.");
+    return;
+  }
 
-// attend.js - Script to automate attendance data extraction from AIMS
+  // Populate profile section
+  document.getElementById("attendanceName").textContent = student.name;
+  document.getElementById("attendanceRoll").textContent = student.roll;
+  document.getElementById("attendanceCollege").textContent = student.college || "Not provided";
+  document.getElementById("attendanceBranch").textContent = student.branch || "Not provided";
+  document.getElementById("attendanceSemester").textContent = student.semester || "Not provided";
+  document.getElementById("attendanceStreak").textContent = student.streak || 0;
+  document.getElementById("attendanceEmail").textContent = student.email || "Not provided";
+  document.getElementById("attendanceLocation").textContent = student.location || "Not provided";
 
-const puppeteer = require('puppeteer');
-const fs = require('fs');
+  // Calculate overall attendance percentage
+  let overallPercentage = 78; // Default mock value
+  if (student.attendance) {
+    // Parse attendance data (assuming CSV format: date:status,date:status,...)
+    const attendanceRecords = student.attendance.split(',');
+    let totalDays = attendanceRecords.length;
+    let presentDays = 0;
 
-(async () => {
-  const browser = await puppeteer.launch({ headless: true }); // set to false to see browser
-  const page = await browser.newPage();
-
-  // 1. Go to AIMS login page
-  await page.goto('https://aims.aktu.ac.in/aims');
-
-  // 2. Login
-  await page.type('#username', 'YOUR_USERNAME');
-  await page.type('#password', 'YOUR_PASSWORD');
-  await page.click('#loginButton'); // Adjust selector as per actual button
-  await page.waitForNavigation();
-
-  // 3. Navigate to attendance page
-  await page.goto('https://aims.aktu.ac.in/aims/Student/Attendance.aspx');
-
-  // 4. Extract attendance data
-  const attendanceData = await page.evaluate(() => {
-    const rows = Array.from(document.querySelectorAll('table#attendanceTable tr')); // Adjust selector
-    return rows.slice(1).map(row => {
-      const cells = row.querySelectorAll('td');
-      return {
-        subject: cells[0].innerText.trim(),
-        totalClasses: cells[1].innerText.trim(),
-        attended: cells[2].innerText.trim(),
-        percentage: cells[3].innerText.trim()
-      };
+    attendanceRecords.forEach(record => {
+      const [date, status] = record.split(':');
+      if (date && status && status.trim().toLowerCase() === 'present') {
+        presentDays++;
+      }
     });
+
+    if (totalDays > 0) {
+      overallPercentage = Math.round((presentDays / totalDays) * 100);
+    }
+  }
+
+  // Update overall attendance circle
+  const overallCircle = document.getElementById('overallAttendance');
+  if (overallCircle) {
+    overallCircle.setAttribute('data-value', overallPercentage);
+    overallCircle.style.setProperty('--percentage', overallPercentage);
+  }
+
+  // Calculate attendance percentages for subjects (mock calculation based on overall)
+  const subjects = ['Engineering Graphics', 'Mathematical Engineering', 'Data Structures', 'Algorithms', 'Operating Systems'];
+  subjects.forEach((subject, index) => {
+    // Vary subject percentages around the overall percentage
+    const variation = (Math.random() - 0.5) * 20; // Random variation between -10% and +10%
+    const subjectPercentage = Math.max(0, Math.min(100, Math.round(overallPercentage + variation)));
+    const progressCircle = document.querySelectorAll('.progress-circle')[index + 1]; // Skip overall circle
+    if (progressCircle) {
+      progressCircle.setAttribute('data-value', subjectPercentage);
+      progressCircle.style.setProperty('--percentage', subjectPercentage);
+    }
   });
+}
 
-  // 5. Save to JSON
-  fs.writeFileSync('attendance.json', JSON.stringify(attendanceData, null, 2));
-  console.log('Attendance data saved.');
+// Function to toggle subject-wise attendance view
+function toggleSubjectWise() {
+  const subjectWise = document.getElementById('subjectWiseAttendance');
+  const button = document.getElementById('toggleSubjects');
 
-  await browser.close();
-})();
+  if (subjectWise.style.display === 'none') {
+    subjectWise.style.display = 'block';
+    button.textContent = 'Hide Subject-wise Attendance';
+  } else {
+    subjectWise.style.display = 'none';
+    button.textContent = 'View Subject-wise Attendance';
+  }
+}
+
+// Call populateAttendancePage on page load
+window.onload = function() {
+  populateAttendancePage();
+};
