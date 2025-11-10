@@ -55,15 +55,16 @@ body.login-page {
   text-align: center;
   color: var(--heading-color);
 }
+
 .header h1 {
   margin: 0;
-  font-size: 1.6rem;
-  font-weight: 700;
+  font-size: 2rem;
+  font-weight: 900;
   letter-spacing: 0.2px;
 }
 .footer {
   margin-top: auto;
-  padding: 0.6rem 0;
+  padding: 1rem;
   color: var(--muted);
   font-size: 0.92rem;
 }

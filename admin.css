@@ -57,23 +57,30 @@ body {
   padding: 20px;
   border-radius: var(--border-radius);
   box-shadow: var(--shadow);
+  height: 600px;
+  width: 100%;
 }
 
 .admin-header h1 {
   margin-bottom: 10px;
   color: var(--heading-color);
+  font-size: 2rem;
 }
 
 .muted {
+
   color: #6c757d;
-  font-size: 0.9em;
+  font-size: 1.5em;
+  margin: 1 rem 1rem 0 0;
 }
 
 /* Controls */
 .controls {
+  margin-top: 4rem;
   display: flex;
-  gap: 10px;
+  flex-direction: column;
   align-items: center;
+  gap: 3rem;
   flex-wrap: wrap;
 }
 
@@ -147,12 +154,18 @@ body {
   border-radius: 4px;
 }
 
+.seat-controls-row select option {
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  padding: 10px;
+}
+
 /* Card */
 .card {
   background: var(--card-bg);
   border-radius: var(--border-radius);
   box-shadow: var(--shadow);
-  padding: 20px;
+  padding: 40px;
   margin-bottom: 20px;
 }
 
@@ -256,6 +269,7 @@ body {
 }
 
 .small {
+  margin-top: 7px;
   display: block;
   margin-bottom: 5px;
   font-size: 12px;

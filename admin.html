@@ -14,13 +14,13 @@
 
           <div class="admin-seat-controls">
             <div class="seat-controls-row">
-              <label for="yearSelect">Select Year</label>
-              <select id="yearSelect" aria-label="Select Year"></select>
+              <label class="small" for="yearSelect">Select Year</label>
+              <select id="yearSelect" class="input" aria-label="Select Year"></select>
 
-              <label for="sectionSelect">Select Section</label>
-              <select id="sectionSelect" aria-label="Select Section"></select>
+              <label class="small" for="sectionSelect">Select Section</label>
+              <select id="sectionSelect" class="input" aria-label="Select Section"></select>
 
-              <button id="generateSeatsBtn" type="button">Show Seats</button>
+              <button id="generateSeatsBtn" class="btn btn-primary" type="button">Show Seats</button>
             </div>
 
             <div class="card" aria-hidden="false">
@@ -32,22 +32,14 @@
         </div>
 
         <div class="controls" role="group" aria-label="Dashboard controls">
-          <input
-            id="searchInput"
-            class="search-input"
-            placeholder="Search by name / roll / branch"
-            aria-label="Search students"
+          <input  id="searchInput"  class="search-input"  placeholder="Search by name / roll / branch"  aria-label="Search students"
           />
           <button id="addStudentBtn" class="btn btn-primary" type="button">+ Add Student</button>
           <button id="exportBtn" class="btn btn-ghost" type="button">Export JSON</button>
 
           <label class="btn btn-ghost" style="cursor: pointer">
             Import JSON
-            <input
-              id="importFile"
-              type="file"
-              accept="application/json"
-              style="display: none"
+            <input id="importFile" type="file" accept="application/json" style="display: none"
             />
           </label>
 
@@ -79,21 +71,11 @@
 
     <!-- View / Edit Modal -->
     <div id="modal" class="modal" style="display: none;" aria-hidden="true">
-      <div
-        class="modal-card"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="modalTitle"
-      >
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
         <!-- Close (cross) button -->
-        <button
-          type="button"
-          id="modalCloseBtn"
-          class="modal-close"
-          aria-label="Close dialog"
-        >
-          ×
-        </button>
+    <button  type="button"  id="modalCloseBtn"  class="modal-close"  aria-label="Close dialog">
+      &times;
+    </button>
 
         <h2 id="modalTitle">Student</h2>
 
@@ -126,42 +108,22 @@
 
             <div>
               <label class="small" for="fSession">Session (Year Range)</label>
-              <input
-                id="fSession"
-                class="input"
-                type="text"
-                placeholder="e.g. 2024–2028"
-              />
+              <input id="fSession" class="input" type="text" placeholder="e.g. 2024–2028" />
             </div>
 
             <div>
               <label class="small" for="fSection">Section</label>
-              <input
-                id="fSection"
-                class="input"
-                type="text"
-                placeholder="e.g. CSE–1"
-              />
+              <input id="fSection" class="input" type="text" placeholder="e.g. CSE–1"/>
             </div>
 
             <div>
               <label class="small" for="fEmail">Email</label>
-              <input
-                id="fEmail"
-                class="input"
-                type="email"
-                placeholder="e.g. student@gmail.com"
-              />
+              <input id="fEmail" class="input" type="email" placeholder="e.g. student@gmail.com">
             </div>
 
             <div>
               <label class="small" for="fLocation">Location</label>
-              <input
-                id="fLocation"
-                class="input"
-                type="text"
-                placeholder="e.g. Lucknow, UP"
-              />
+              <input id="fLocation" class="input" type="text" placeholder="e.g. Lucknow, UP">
             </div>
 
             <div>
