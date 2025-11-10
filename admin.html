@@ -89,11 +89,25 @@
       }
       .modal-card {
         width: 100%;
-        max-width: 720px;
+        max-width: 900px;
         background: var(--bg-color);
-        padding: 18px;
+        padding: 12px;
         border-radius: 12px;
         box-shadow: var(--shadow);
+        position: relative;
+        max-height: 85vh;
+        overflow-y: auto;
+      }
+      .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: var(--text-color);
+        display: block;
       }
       .form-grid {
         display: grid;
@@ -832,6 +846,8 @@
 
       // cancel
       cancelBtn.addEventListener("click", closeModal);
+
+      // close button
 
       // close modal utility
       function closeModal() {

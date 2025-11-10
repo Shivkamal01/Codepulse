@@ -1,44 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CodePulse</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <script src="chart.js"></script>
-</head>
-<body>
-  <div class="navbar-container">
-    <button id="hamburgerMenu" class="hamburger-menu" aria-label="Toggle menu">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-    <aside class="sidebar">
-      <div class="logo">
-        <img src="./images/logo.jpg" alt="CodePulse Logo" />
-      </div>
-      <!-- <div class="sidebar-header">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CodePulse</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <script src="chart.js"></script>
+  </head>
+  <body>
+    <div class="navbar-container">
+      <button
+        id="hamburgerMenu"
+        class="hamburger-menu"
+        aria-label="Toggle menu"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <aside class="sidebar">
+        <div class="logo">
+          <img src="./images/logo.jpg" alt="CodePulse Logo" />
+        </div>
+        <!-- <div class="sidebar-header">
         <h2>CodePulse</h2>
       </div> -->
-      <nav class="sidebar-nav">
-        <ul>
-          <li><a href="#profile">Profile</a></li>
-          <li><a href="#rank-check">Rank Check</a></li>
-          <li><a href="#stats">Stats</a></li>
-          <li><a href="#leaderboard">Leaderboard</a></li>
-          <li><a href="#announcements">Announcements</a></li>
-          <li><a href="#achievements">Achievements</a></li>
-          <li><a href="#contests">Contests</a></li>
-          <li><a href="#coding-tips">Coding Tips</a></li>
-        </ul>
-      </nav>
-      <div class="sidebar-footer">
-        <button id="themeToggle" onclick="toggleTheme()">Switch Theme</button>
-      </div>
-    </aside>
-  </div>
+        <nav class="sidebar-nav">
+          <ul>
+            <li><a href="#profile">Profile</a></li>
+            <li><a href="#rank-check">Rank Check</a></li>
+            <li><a href="#stats">Stats</a></li>
+            <li><a href="#leaderboard">Leaderboard</a></li>
+            <li><a href="#announcements">Announcements</a></li>
+            <li><a href="#achievements">Achievements</a></li>
+            <li><a href="#contests">Contests</a></li>
+            <li><a href="#coding-tips">Coding Tips</a></li>
+          </ul>
+        </nav>
+        <div class="sidebar-footer">
+          <button id="themeToggle" onclick="toggleTheme()">Switch Theme</button>
+        </div>
+      </aside>
+    </div>
 
     <main class="main-content">
       <header class="header">
@@ -52,7 +59,7 @@
         </div>
       </header>
       <div class="hero-banner">
-        <img src="images/banner.jpg" alt="CodePulse Hero Banner">
+        <img src="images/banner.jpg" alt="CodePulse Hero Banner" />
       </div>
 
       <section id="profile" class="profile section">
@@ -65,7 +72,11 @@
             <strong>Name:</strong> <span id="profileName"></span>
           </div>
           <div class="profile-item">
-            <img id="profileAvatar" src="./images/github.webp" alt="GitHub Avatar">
+            <img
+              id="profileAvatar"
+              src="./images/github.webp"
+              alt="GitHub Avatar"
+            />
           </div>
           <div class="profile-item">
             <strong>College:</strong> <span id="profileCollege"></span>
@@ -79,17 +90,16 @@
           <div class="profile-item">
             <strong>Course:</strong> BTech. Computer Science & Engineering
           </div>
+          <div class="profile-item"><strong>Enrollment:</strong> 2024-2028</div>
           <div class="profile-item">
-            <strong>Enrollment:</strong> 2024-2028
+            <strong>Email:</strong> <span id="profileEmail"></span>
           </div>
           <div class="profile-item">
-            <strong>Email:</strong> shivam@example.com
+            <strong>Location:</strong> <span id="profileLocation"></span>
           </div>
           <div class="profile-item">
-            <strong>Location:</strong> Lucknow, Uttar Pradesh
-          </div>
-          <div class="profile-item">
-            <strong>Contribution Streak:</strong> <span id="profileStreak"></span>
+            <strong>Contribution Streak:</strong>
+            <span id="profileStreak"></span>
           </div>
           <div class="profile-item">
             <strong>Social Links:</strong>
@@ -113,7 +123,13 @@
       <section id="leaderboard" class="leaderboard section">
         <h2>College Leaderboard</h2>
         <div class="leaderboard-controls">
-          <input type="text" id="leaderboardSearch" class="leaderboard-search" placeholder="Search by name or roll number" aria-label="Search leaderboard">
+          <input
+            type="text"
+            id="leaderboardSearch"
+            class="leaderboard-search"
+            placeholder="Search by name or roll number"
+            aria-label="Search leaderboard"
+          />
           <select id="filterBy" aria-label="Filter by">
             <option value="overall">Overall</option>
             <option value="branch">By Branch</option>
@@ -151,8 +167,6 @@
         </div>
       </section>
 
-
-
       <section id="announcements" class="announcements section">
         <h2>Announcements</h2>
         <div class="announcements-list">
@@ -183,32 +197,44 @@
           <div class="achievement-item">
             <div class="achievement-icon">🏆</div>
             <div class="achievement-title">First Problem Solved</div>
-            <div class="achievement-description">Solved your first coding problem on any platform.</div>
+            <div class="achievement-description">
+              Solved your first coding problem on any platform.
+            </div>
           </div>
           <div class="achievement-item">
             <div class="achievement-icon">🔥</div>
             <div class="achievement-title">Streak Master</div>
-            <div class="achievement-description">Maintained a 30-day coding streak.</div>
+            <div class="achievement-description">
+              Maintained a 30-day coding streak.
+            </div>
           </div>
           <div class="achievement-item">
             <div class="achievement-icon">⭐</div>
             <div class="achievement-title">Top Contributor</div>
-            <div class="achievement-description">Ranked in the top 10 of the leaderboard.</div>
+            <div class="achievement-description">
+              Ranked in the top 10 of the leaderboard.
+            </div>
           </div>
           <div class="achievement-item">
             <div class="achievement-icon">🎯</div>
             <div class="achievement-title">Contest Winner</div>
-            <div class="achievement-description">Won first place in a coding contest.</div>
+            <div class="achievement-description">
+              Won first place in a coding contest.
+            </div>
           </div>
           <div class="achievement-item">
             <div class="achievement-icon">📚</div>
             <div class="achievement-title">Learning Enthusiast</div>
-            <div class="achievement-description">Completed 50 tutorial problems.</div>
+            <div class="achievement-description">
+              Completed 50 tutorial problems.
+            </div>
           </div>
           <div class="achievement-item">
             <div class="achievement-icon">🚀</div>
             <div class="achievement-title">Speed Demon</div>
-            <div class="achievement-description">Solved a problem in under 5 minutes.</div>
+            <div class="achievement-description">
+              Solved a problem in under 5 minutes.
+            </div>
           </div>
         </div>
       </section>
@@ -218,22 +244,31 @@
         <div class="contests-list">
           <div class="contest-item">
             <div class="contest-title">Weekly Coding Challenge</div>
-            <div class="contest-details">Date: Every Saturday | Time: 10:00 AM - 12:00 PM | Platform: CodeChef</div>
+            <div class="contest-details">
+              Date: Every Saturday | Time: 10:00 AM - 12:00 PM | Platform:
+              CodeChef
+            </div>
             <a href="#" class="contest-link">Register Now</a>
           </div>
           <div class="contest-item">
             <div class="contest-title">Algorithm Sprint</div>
-            <div class="contest-details">Date: Next Monday | Time: 2:00 PM - 4:00 PM | Platform: LeetCode</div>
+            <div class="contest-details">
+              Date: Next Monday | Time: 2:00 PM - 4:00 PM | Platform: LeetCode
+            </div>
             <a href="#" class="contest-link">Register Now</a>
           </div>
           <div class="contest-item">
             <div class="contest-title">Data Structures Marathon</div>
-            <div class="contest-details">Date: This Friday | Time: 6:00 PM - 8:00 PM | Platform: HackerRank</div>
+            <div class="contest-details">
+              Date: This Friday | Time: 6:00 PM - 8:00 PM | Platform: HackerRank
+            </div>
             <a href="#" class="contest-link">Register Now</a>
           </div>
           <div class="contest-item">
             <div class="contest-title">Monthly Hackathon</div>
-            <div class="contest-details">Date: End of Month | Time: 24 Hours | Platform: CodePulse</div>
+            <div class="contest-details">
+              Date: End of Month | Time: 24 Hours | Platform: CodePulse
+            </div>
             <a href="#" class="contest-link">Register Now</a>
           </div>
         </div>
@@ -243,45 +278,87 @@
         <h2>Coding Tips</h2>
         <div class="tips-list">
           <div class="tip-item">
-            <img src="https://img.freepik.com/free-vector/man-working-laptop-with-coffee-stationary-cartoon-vector-illustration_138676-2206.jpg?semt=ais_hybrid&w=740&q=80" alt="3D Avatar" class="tip-avatar">
+            <img
+              src="https://img.freepik.com/free-vector/man-working-laptop-with-coffee-stationary-cartoon-vector-illustration_138676-2206.jpg?semt=ais_hybrid&w=740&q=80"
+              alt="3D Avatar"
+              class="tip-avatar"
+            />
             <div class="tip-content">
               <h4>Practice Daily</h4>
-              <p>Consistency is key. Solve at least one problem every day to build your skills gradually.</p>
+              <p>
+                Consistency is key. Solve at least one problem every day to
+                build your skills gradually.
+              </p>
             </div>
           </div>
           <div class="tip-item">
-            <img src="https://pbs.twimg.com/ext_tw_video_thumb/1408235605159460864/pu/img/teHICGeTna6pgtep.jpg" alt="3D Avatar" class="tip-avatar">
+            <img
+              src="https://pbs.twimg.com/ext_tw_video_thumb/1408235605159460864/pu/img/teHICGeTna6pgtep.jpg"
+              alt="3D Avatar"
+              class="tip-avatar"
+            />
             <div class="tip-content">
               <h4>Understand the Problem</h4>
-              <p>Read the problem statement carefully and identify the input/output requirements before coding.</p>
+              <p>
+                Read the problem statement carefully and identify the
+                input/output requirements before coding.
+              </p>
             </div>
           </div>
           <div class="tip-item">
-            <img src="https://i.pinimg.com/474x/e5/63/46/e56346cf2916063035418d1ee9a7c5ad.jpg" alt="3D Avatar" class="tip-avatar">
+            <img
+              src="https://i.pinimg.com/474x/e5/63/46/e56346cf2916063035418d1ee9a7c5ad.jpg"
+              alt="3D Avatar"
+              class="tip-avatar"
+            />
             <div class="tip-content">
               <h4>Plan Your Solution</h4>
-              <p>Think about the algorithm and data structures needed before writing code.</p>
+              <p>
+                Think about the algorithm and data structures needed before
+                writing code.
+              </p>
             </div>
           </div>
           <div class="tip-item">
-            <img src="https://thumbs.dreamstime.com/b/software-language-programmer-avatar-software-language-programmer-avatar-vector-illustration-design-110589781.jpg" alt="3D Avatar" class="tip-avatar">
+            <img
+              src="https://thumbs.dreamstime.com/b/software-language-programmer-avatar-software-language-programmer-avatar-vector-illustration-design-110589781.jpg"
+              alt="3D Avatar"
+              class="tip-avatar"
+            />
             <div class="tip-content">
               <h4>Debug Effectively</h4>
-              <p>Use print statements or debuggers to trace through your code and find issues.</p>
+              <p>
+                Use print statements or debuggers to trace through your code and
+                find issues.
+              </p>
             </div>
           </div>
           <div class="tip-item">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWc-TEiv3QajMjjQHKIGSDL6eD2NkQxehrn0mkzZ5E82aFlHjGDPDbSfsiuc-whB2ytJE&usqp=CAU" alt="3D Avatar" class="tip-avatar">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWc-TEiv3QajMjjQHKIGSDL6eD2NkQxehrn0mkzZ5E82aFlHjGDPDbSfsiuc-whB2ytJE&usqp=CAU"
+              alt="3D Avatar"
+              class="tip-avatar"
+            />
             <div class="tip-content">
               <h4>Learn from Others</h4>
-              <p>Study solutions from other programmers to understand different approaches.</p>
+              <p>
+                Study solutions from other programmers to understand different
+                approaches.
+              </p>
             </div>
           </div>
           <div class="tip-item">
-            <img src="https://png.pngtree.com/png-clipart/20240705/original/pngtree-web-programmer-avatar-png-image_15495273.png" alt="3D Avatar" class="tip-avatar">
+            <img
+              src="https://png.pngtree.com/png-clipart/20240705/original/pngtree-web-programmer-avatar-png-image_15495273.png"
+              alt="3D Avatar"
+              class="tip-avatar"
+            />
             <div class="tip-content">
               <h4>Optimize Your Code</h4>
-              <p>After solving a problem, think about ways to improve time and space complexity.</p>
+              <p>
+                After solving a problem, think about ways to improve time and
+                space complexity.
+              </p>
             </div>
           </div>
         </div>
@@ -293,33 +370,74 @@
           <div class="resource-category">
             <h3>Tutorials</h3>
             <ul>
-              <li><a href="https://www.geeksforgeeks.org/" target="_blank" rel="noopener noreferrer">GeeksforGeeks</a></li>
-              <li><a href="https://www.tutorialspoint.com/" target="_blank" rel="noopener noreferrer">TutorialsPoint</a></li>
+              <li>
+                <a
+                  href="https://www.geeksforgeeks.org/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >GeeksforGeeks</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://www.tutorialspoint.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >TutorialsPoint</a
+                >
+              </li>
             </ul>
           </div>
           <div class="resource-category">
             <h3>Blogs</h3>
             <ul>
-              <li><a href="https://medium.com/topic/programming" target="_blank" rel="noopener noreferrer">Medium Programming</a></li>
-              <li><a href="https://dev.to/" target="_blank" rel="noopener noreferrer">Dev.to</a></li>
+              <li>
+                <a
+                  href="https://medium.com/topic/programming"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Medium Programming</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://dev.to/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Dev.to</a
+                >
+              </li>
             </ul>
           </div>
           <div class="resource-category">
             <h3>Tools</h3>
             <ul>
-              <li><a href="https://code.visualstudio.com/" target="_blank" rel="noopener noreferrer">VS Code</a></li>
-              <li><a href="https://git-scm.com/" target="_blank" rel="noopener noreferrer">Git</a></li>
+              <li>
+                <a
+                  href="https://code.visualstudio.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >VS Code</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://git-scm.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Git</a
+                >
+              </li>
             </ul>
           </div>
         </div>
       </section>
     </main>
 
-  <footer class="footer">
-    <p>&copy; 2025 CodePulse. All rights reserved.</p>
-  </footer>
+    <footer class="footer">
+      <p>&copy; 2025 CodePulse. All rights reserved.</p>
+    </footer>
 
-  <script src="script.js"></script>
-
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>

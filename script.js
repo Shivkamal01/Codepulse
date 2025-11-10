@@ -192,6 +192,8 @@ async function populateProfile() {
   document.getElementById("profileBranch").textContent = student.branch || "Unknown Branch";
   document.getElementById("profileSemester").textContent = student.semester || "Unknown Semester";
   document.getElementById("profileStreak").textContent = (student.streak || 0) + " days";
+  document.getElementById("profileEmail").textContent = student.email || "Not provided";
+  document.getElementById("profileLocation").textContent = student.location || "Not provided";
   document.getElementById("profileAvatar").src = "./images/github.webp";
 }
 
