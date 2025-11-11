@@ -500,6 +500,10 @@
       const STORAGE_KEY = "codepulse_students";
       const ADMIN_FLAG = "codepulse_admin"; // demo flag stored in sessionStorage by login page (optional)
 
+      function writeStudents(students) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(students));
+      }
+
       // Protect page: if sessionStorage not show admin flag, prompt to login
       (function protect() {
         const admin = sessionStorage.getItem(ADMIN_FLAG);
@@ -515,23 +519,66 @@
         }
       })();
 
-      // --- Data CRUD ---
-      function readStudents() {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) return [];
+      // --- API functions ---
+      const API_BASE = "http://localhost:3000/api";
+
+      async function readStudents() {
         try {
-          return JSON.parse(raw);
-        } catch (e) {
+          const response = await fetch(`${API_BASE}/students`);
+          if (!response.ok) throw new Error("Failed to fetch students");
+          return await response.json();
+        } catch (error) {
+          console.error("Error reading students:", error);
           return [];
         }
       }
-      function writeStudents(arr) {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+
+      async function addStudent(student) {
+        try {
+          const response = await fetch(`${API_BASE}/students`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(student),
+          });
+          if (!response.ok) throw new Error("Failed to add student");
+          return await response.json();
+        } catch (error) {
+          console.error("Error adding student:", error);
+          throw error;
+        }
+      }
+
+      async function updateStudent(roll, student) {
+        try {
+          const response = await fetch(`${API_BASE}/students/${roll}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(student),
+          });
+          if (!response.ok) throw new Error("Failed to update student");
+          return await response.json();
+        } catch (error) {
+          console.error("Error updating student:", error);
+          throw error;
+        }
+      }
+
+      async function deleteStudent(roll) {
+        try {
+          const response = await fetch(`${API_BASE}/students/${roll}`, {
+            method: "DELETE",
+          });
+          if (!response.ok) throw new Error("Failed to delete student");
+          return await response.json();
+        } catch (error) {
+          console.error("Error deleting student:", error);
+          throw error;
+        }
       }
 
       // seed with sample if empty for convenience
-      (function seed() {
-        const s = readStudents();
+      (async function seed() {
+        const s = await readStudents();
         if (s.length === 0) {
           const demo = [
             {
@@ -603,8 +650,8 @@
       let editingRoll = null; // which roll is being edited
 
       // --- Render table ---
-      function renderTable(filter = "") {
-        const list = readStudents();
+      async function renderTable(filter = "") {
+        const list = await readStudents();
         const q = filter.trim().toLowerCase();
         tbody.innerHTML = "";
 
@@ -683,9 +730,10 @@
       }
 
       // --- CRUD actions ---
-      function viewStudent(key) {
+      async function viewStudent(key) {
         const roll = decodeKey(key);
-        const student = readStudents().find((x) => x.roll === roll);
+        const students = await readStudents();
+        const student = students.find((x) => x.roll === roll);
         if (!student) return alert("Student not found");
         // populate a readonly view by filling fields but disabling them
         modalTitle.textContent = `View — ${student.name} (${student.roll})`;
@@ -695,9 +743,10 @@
         modal.style.display = "flex";
       }
 
-      function editStudent(key) {
+      async function editStudent(key) {
         const roll = decodeKey(key);
-        const student = readStudents().find((x) => x.roll === roll);
+        const students = await readStudents();
+        const student = students.find((x) => x.roll === roll);
         if (!student) return alert("Student not found");
         modalTitle.textContent = `Edit — ${student.name} (${student.roll})`;
         fillForm(student);
@@ -747,10 +796,11 @@
         removeStudent(roll);
       }
 
-      function removeStudent(roll) {
-        const arr = readStudents().filter((x) => x.roll !== roll);
+      async function removeStudent(roll) {
+        const students = await readStudents();
+        const arr = students.filter((x) => x.roll !== roll);
         writeStudents(arr);
-        renderTable(searchInput.value);
+        await renderTable(searchInput.value);
         closeModal();
       }
 
@@ -809,7 +859,7 @@
       //   closeModal();
       // });
 
-      studentForm.addEventListener("submit", function (e) {
+      studentForm.addEventListener("submit", async function (e) {
         e.preventDefault();
 
         const roll = fRoll.value.trim();
@@ -826,14 +876,14 @@
         const codechef = fCodechef.value.trim();
         const attendance = fAttendance.value.trim();
         const marks = fMarks.value.trim();
-        const password = document.getElementById("fPassword").value; // new line
+        const password = document.getElementById("fPassword").value;
 
         if (!roll || !name) {
           alert("Roll and Name are required.");
           return;
         }
 
-        const students = readStudents();
+        const students = await readStudents();
 
         if (editingRoll) {
           const idx = students.findIndex((s) => s.roll === editingRoll);
@@ -880,7 +930,7 @@
         }
 
         writeStudents(students);
-        renderTable(searchInput.value || "");
+        await renderTable(searchInput.value || "");
         closeModal();
       });
 
@@ -907,8 +957,8 @@
       }
 
       // --- Import / Export ---
-      exportBtn.addEventListener("click", function () {
-        const arr = readStudents();
+      exportBtn.addEventListener("click", async function () {
+        const arr = await readStudents();
         const blob = new Blob([JSON.stringify(arr, null, 2)], {
           type: "application/json",
         });
@@ -926,13 +976,13 @@
         const file = ev.target.files[0];
         if (!file) return;
         const reader = new FileReader();
-        reader.onload = function (e) {
+        reader.onload = async function (e) {
           try {
             const imported = JSON.parse(e.target.result);
             if (!Array.isArray(imported))
               throw new Error("Invalid JSON format (expected array)");
             // merge imported (avoid duplicates by roll)
-            const cur = readStudents();
+            const cur = await readStudents();
             const merged = [...cur];
             for (const s of imported) {
               if (!s.roll) continue;
@@ -941,7 +991,7 @@
               else merged[idx] = s; // overwrite
             }
             writeStudents(merged);
-            renderTable();
+            await renderTable();
             alert("Import successful");
           } catch (ex) {
             alert("Import failed: " + ex.message);
@@ -979,8 +1029,8 @@
       const today = new Date().toISOString().split("T")[0];
       attendanceDate.value = today;
 
-      function renderAttendanceList() {
-        const students = readStudents();
+      async function renderAttendanceList() {
+        const students = await readStudents();
         attendanceList.innerHTML = "";
 
         if (students.length === 0) {
@@ -1012,7 +1062,7 @@
         });
       }
 
-      markAttendanceBtn.addEventListener("click", function () {
+      markAttendanceBtn.addEventListener("click", async function () {
         const date = attendanceDate.value;
         const subject = document.getElementById("attendanceSubject").value;
         if (!date) {
@@ -1024,7 +1074,7 @@
           return;
         }
 
-        const students = readStudents();
+        const students = await readStudents();
         const checkboxes = attendanceList.querySelectorAll(
           'input[type="checkbox"]'
         );
@@ -1057,7 +1107,7 @@
         });
 
         writeStudents(students);
-        renderTable(searchInput.value || "");
+        await renderTable(searchInput.value || "");
         alert("Attendance marked successfully!");
       });
 
@@ -1066,8 +1116,8 @@
       const saveQuizMarksBtn = document.getElementById("saveQuizMarksBtn");
       const quizMarksList = document.getElementById("quizMarksList");
 
-      function renderQuizMarksTable(subject) {
-        const students = readStudents();
+      async function renderQuizMarksTable(subject) {
+        const students = await readStudents();
         quizMarksList.innerHTML = "";
 
         if (students.length === 0) {
@@ -1124,23 +1174,23 @@
         quizMarksList.appendChild(table);
       }
 
-      loadQuizMarksBtn.addEventListener("click", function () {
+      loadQuizMarksBtn.addEventListener("click", async function () {
         const subject = document.getElementById("quizSubject").value;
         if (!subject) {
           alert("Please select a subject.");
           return;
         }
-        renderQuizMarksTable(subject);
+        await renderQuizMarksTable(subject);
       });
 
-      saveQuizMarksBtn.addEventListener("click", function () {
+      saveQuizMarksBtn.addEventListener("click", async function () {
         const subject = document.getElementById("quizSubject").value;
         if (!subject) {
           alert("Please select a subject.");
           return;
         }
 
-        const students = readStudents();
+        const students = await readStudents();
         const inputs = quizMarksList.querySelectorAll('input[type="number"]');
 
         inputs.forEach((input) => {
@@ -1200,11 +1250,8 @@
           }
         }
 
-        function renderSeatGrid(year, section) {
-          const students =
-            typeof readStudents === "function"
-              ? readStudents()
-              : JSON.parse(localStorage.getItem("codepulse_students") || "[]");
+        async function renderSeatGrid(year, section) {
+          const students = await readStudents();
 
           seatGridContainer.innerHTML = "";
           const grid = document.createElement("div");
@@ -1291,15 +1338,15 @@
           }
         }
 
-        generateSeatsBtn.addEventListener("click", () => {
-          renderSeatGrid(yearSelect.value, sectionSelect.value);
+        generateSeatsBtn.addEventListener("click", async () => {
+          await renderSeatGrid(yearSelect.value, sectionSelect.value);
         });
 
         populateYearOptions();
         populateSectionOptions();
 
-        document.addEventListener("DOMContentLoaded", () => {
-          renderSeatGrid(yearSelect.value, sectionSelect.value);
+        document.addEventListener("DOMContentLoaded", async () => {
+          await renderSeatGrid(yearSelect.value, sectionSelect.value);
         });
       })();
 
