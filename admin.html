@@ -408,32 +408,27 @@
             </div>
 
             <div>
-              <label class="small">Email</label>
-              <input id="fEmail" class="input" type="email" />
+              <label class="small" for="fEmail">Email</label>
+              <input id="fEmail" class="input" type="email" placeholder="e.g. student@gmail.com">
             </div>
 
             <div>
-              <label class="small">Location</label>
-              <input id="fLocation" class="input" />
-            </div>
 
-            <div>
-              <label class="small">Password</label>
               <input id="fPassword" class="input" type="password" />
             </div>
 
             <div>
-              <label class="small">GitHub Username</label>
+              <label class="small" for="fGithub">GitHub Username</label>
               <input id="fGithub" class="input" />
             </div>
 
             <div>
-              <label class="small">LinkedIn URL</label>
+              <label class="small" for="fLinkedin">LinkedIn URL</label>
               <input id="fLinkedin" class="input" />
             </div>
 
             <div>
-              <label class="small">Codeforces URL</label>
+              <label class="small" for="fCodeforces">Codeforces URL</label>
               <input id="fCodeforces" class="input" />
             </div>
 
@@ -443,45 +438,32 @@
             </div>
 
             <div class="full">
-              <label class="small"
-                >Attendance (comma-separated dates or "present/absent"
-                items)</label
-              >
+              <label class="small" for="fAttendance">
+                Attendance (comma-separated dates or "present/absent" items)
+              </label>
               <input
                 id="fAttendance"
                 class="input"
                 placeholder="e.g. 2025-11-01:present,2025-11-02:absent"
               />
-              <small class="muted"
-                >You can store attendance as simple CSV pairs for demo.</small
-              >
+              <small class="muted">You can store attendance as simple CSV pairs for demo.</small>
             </div>
 
             <div class="full">
-              <label class="small"
-                >Marks (JSON array) — e.g.
-                [{"subject":"Math","marks":85}]</label
-              >
+              <label class="small" for="fMarks">
+                Marks (JSON array) — e.g. [{"subject":"Math","marks":85}]
+              </label>
               <input
                 id="fMarks"
                 class="input"
                 placeholder='[{"subject":"Math","marks":85}]'
               />
-              <small class="muted"
-                >Store quiz/test marks as JSON (for demo frontend).</small
-              >
+              <small class="muted">Store quiz/test marks as JSON (for demo frontend).</small>
             </div>
           </div>
 
           <div class="actions">
-            <button
-              type="button"
-              id="deleteBtn"
-              class="btn btn-danger"
-              style="display: none"
-            >
-              Delete
-            </button>
+            <button type="button" id="deleteBtn" class="btn btn-danger">Delete</button>
             <button type="button" id="cancelBtn" class="btn">Cancel</button>
             <button type="submit" class="btn btn-primary">Save</button>
           </div>
