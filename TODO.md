@@ -1,5 +1,6 @@
-# TODO: Fix Styling Issues in login.css
+# TODO: Fix Styling Issues in dashboard.html
 
-- [x] Add missing CSS variables (--muted, --danger, --space) to :root section
-- [x] Remove duplicate .section::before pseudo-element to restore top gradient bar
-- [x] Remove duplicate .section::after pseudo-element
+## Tasks
+- [ ] Update dashboard.html: Add icon classes to profile-item divs for consistent icon display
+- [ ] Update style.css: Modify CSS to target .profile-item instead of p tags, add ::before pseudo-elements for icons, fix avatar image styling, remove unused old p tag styles
+- [ ] Verify changes: Check that icons appear correctly and styling is consistent in the profile section
