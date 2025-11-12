@@ -4,10 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CodePulse Attendance</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
     <link rel="stylesheet" href="common.css" />
     <link rel="stylesheet" href="style.css" />
   </head>
@@ -16,20 +13,16 @@
       <h1>Attendance</h1>
       <div class="nav-links">
         <ul>
-          <li><a href="index.html">Home</a></li>
+          <li><a href="dashboard.html">Home</a></li>
           <li><a href="attendance.html">Attendance</a></li>
           <li><a href="about.html">About</a></li>
-          <li><a href="index.html">Login</a></li>
         </ul>
       </div>
     </header>
     <div class="dashboard">
       <div class="card profile-card">
         <div class="profile">
-          <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0pR2J6X_T5WSpHqmZv9RDFuvNTMAgYXARpQ&s"
-            alt="Shivam Maurya"
-          />
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0pR2J6X_T5WSpHqmZv9RDFuvNTMAgYXARpQ&s" alt="Shivam Maurya"/>
           <h2 id="attendanceName"></h2>
           <p id="attendanceCourse">BTech. Computer Science & Engineering</p>
           <p>Reg No: <span id="attendanceRoll"></span></p>
@@ -47,18 +40,10 @@
           <h3>Attendance (Last 30 Days)</h3>
           <div class="overall-attendance">
             <label>Overall Attendance</label>
-            <div
-              class="progress-circle"
-              id="overallAttendance"
-              data-value="78"
-            ></div>
+            <div class="progress-circle" id="overallAttendance" data-value="78"></div>
             <div class="attendance-stats" id="overallStats"></div>
           </div>
-          <div
-            class="subject-wise"
-            id="subjectWiseAttendance"
-            style="display: none"
-          >
+          <div class="subject-wise" id="subjectWiseAttendance" style="display: none">
             <h4>Subject-wise Attendance</h4>
             <div id="subjectsList">
               <!-- Subjects will be populated dynamically -->
