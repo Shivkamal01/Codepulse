@@ -1,31 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
-
-      .back-btn:hover {
-        background: #5a6268;
-        transform: translateY(-2px);
-      }
-
-      .login-form {
-        display: none;
-        margin-top: 1.5rem;
-      }
-
-      .login-section h2 {
-        margin-bottom: 0.5rem;
-      }
-
-      .error-message {
-        margin-top: 1rem;
-        color: #ff6b6b;
-        background: rgba(255, 107, 107, 0.1);
-        padding: 0.5rem;
-        border-radius: 8px;
-        border-left: 4px solid #ff6b6b;
-        display: none;
-      }
-    </style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodePulse Login</title>
+    <link rel="stylesheet" href="login.css">
   </head>
   <body class="login-page">
     <header class="header">
@@ -46,4 +25,44 @@
             Admin Login
           </button>
         </div>
-        </html>
+
+        <!-- Placeholder for login forms -->
+        <div class="login-form" id="studentLoginForm">
+          <h3>Student Login</h3>
+          <form id="studentLoginForm">
+            <div class="input-group">
+              <label for="studentUsername">Roll Number</label>
+              <input type="text" id="studentUsername" placeholder="Enter Roll Number" required>
+            </div>
+            <div class="input-group">
+              <label for="studentPassword">Password</label>
+              <input type="password" id="studentPassword" placeholder="Enter Password" required>
+            </div>
+            <button type="submit" class="login-btn">Login</button>
+          </form>
+          <button class="back-btn" onclick="goBack()">Back</button>
+          <div class="error-message" id="studentError"></div>
+        </div>
+
+        <div class="login-form" id="adminLoginForm">
+          <h3>Admin Login</h3>
+          <form id="adminLoginForm">
+            <div class="input-group">
+              <label for="adminUsername">Admin ID</label>
+              <input type="text" id="adminUsername" placeholder="Enter Admin ID" required>
+            </div>
+            <div class="input-group">
+              <label for="adminPassword">Password</label>
+              <input type="password" id="adminPassword" placeholder="Enter Password" required>
+            </div>
+            <button type="submit" class="login-btn">Login</button>
+          </form>
+          <button class="back-btn" onclick="goBack()">Back</button>
+          <div class="error-message" id="adminError"></div>
+        </div>
+      </section>
+    </main>
+
+    <script src="login.js"></script>
+  </body>
+</html>

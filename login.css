@@ -25,6 +25,9 @@
   --forest-green: #28a745;
   --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   --transition: all 0.3s ease;
+  --muted: #6c757d;
+  --danger: #d9534f;
+  --space: 1rem;
 }
 
 * {
@@ -321,20 +324,6 @@ body.theme-dark .input-group input {
   border-radius: 50%;
   opacity: 0.3;
   animation: float 3s ease-in-out infinite;
-  z-index: 0;
-}
-
-.section::before {
-  content: '';
-  position: absolute;
-  bottom: 20px;
-  left: 20px;
-  width: 15px;
-  height: 15px;
-  background: linear-gradient(45deg, var(--gold-accent), var(--accent-color));
-  border-radius: 50%;
-  opacity: 0.4;
-  animation: float 4s ease-in-out infinite reverse;
   z-index: 0;
 }
 

@@ -1,10 +1,12 @@
 function showStudentLogin() {
   document.getElementById("loginChoice").style.display = "none";
   document.getElementById("studentLoginForm").style.display = "block";
+  document.getElementById("studentLoginForm").classList.add("fade-in");
 }
 function showAdminLogin() {
   document.getElementById("loginChoice").style.display = "none";
   document.getElementById("adminLoginForm").style.display = "block";
+  document.getElementById("adminLoginForm").classList.add("fade-in");
 }
 function goBack() {
   document.getElementById("loginChoice").style.display = "flex";

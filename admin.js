@@ -12,7 +12,7 @@
         "Admin not signed-in via demo flow. Continue to admin dashboard? (In production, require sign-in)"
       );
       if (!ok) {
-        window.location.href = "login.html";
+        window.location.href = "index.html";
       }
     }
   })();
